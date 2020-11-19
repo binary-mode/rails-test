@@ -1,0 +1,17 @@
+<div class="sessions__login-container">
+  <h1> Admin Login </h1>
+
+  <% flash.each do |type, msg| %>
+    <span class="sessions__login__error-alert"> <%= msg %> </span>
+  <% end %>
+
+  <div class="sessions__login-form">
+    <%= form_tag '/login' do %>
+      <%= label_tag :username%>
+      <%= text_field_tag :username, "", class: 'sessions__login-form__input-field', required: true %>
+      <%= label_tag :password%>
+      <%= password_field_tag :password, "", class: 'sessions__login-form__input-field', required: true %>
+      <%= submit_tag "Login", class: 'sessions__login-form__submit-btn'%>
+    <%end%>
+  </div>
+</div>

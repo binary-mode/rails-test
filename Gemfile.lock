@@ -58,6 +58,7 @@ GEM
       zeitwerk (~> 2.2, >= 2.2.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
+    bcrypt (3.1.16)
     bindex (0.8.1)
     bootsnap (1.5.1)
       msgpack (~> 1.0)
@@ -75,6 +76,7 @@ GEM
     concurrent-ruby (1.1.7)
     crass (1.0.6)
     diff-lcs (1.4.4)
+    dotenv (2.2.2)
     erubi (1.10.0)
     faker (2.14.0)
       i18n (>= 1.6, < 2)
@@ -220,9 +222,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt
   bootsnap (>= 1.4.2)
   byebug
   capybara (>= 2.15)
+  dotenv
   faker
   jbuilder (~> 2.7)
   listen (~> 3.2)
@@ -245,4 +249,4 @@ RUBY VERSION
    ruby 2.6.5p114
 
 BUNDLED WITH
-   1.17.2
+   1.17.3

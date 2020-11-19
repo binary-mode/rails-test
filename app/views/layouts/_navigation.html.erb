@@ -1,0 +1,12 @@
+<nav class="navbar">
+  <%= link_to 'RAILS GUEST', root_path, class: "navbar__brand-text" %>
+
+  <% if is_admin? %>
+    <%= link_to 'Logout', logout_path, class: "navbar__right-link logout" %>
+    <span class="navbar__right-link">
+      Hello, <%= current_admin.username %>
+    </span>
+  <% else %>
+    <%= link_to 'Admin Login', new_session_path, class: "navbar__right-link" %>
+  <% end %>
+</nav>
