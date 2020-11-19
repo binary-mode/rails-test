@@ -1,3 +1,47 @@
 // Place all the styles related to the messages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+.messages__container {
+  width: 95%;
+  margin: auto;
+  margin-top: 3rem;
+
+  .messages__links {
+    padding: 0.5rem;
+
+    &:hover {
+      background-color: #3973e0;
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+
+  .card-text,
+  .text-muted {
+    margin-left: 0.5rem;
+  }
+
+  .card-footer {
+    padding-bottom: 0.7rem;
+  }
+
+  .messages__hidden { color: #FF0000; }
+
+  .messages__message-hide {
+    float: right;
+    margin-right: 0.5rem;
+    color: #3973e0;
+    font-weight: bolder;
+    background-color: #fff;
+    border: 1px solid gray;
+    border-radius: 2px;
+    text-decoration: none;
+    padding: 0.3rem;
+
+    &:hover {
+      color: #2f5db4;
+      cursor: pointer;
+    }
+  }
+}

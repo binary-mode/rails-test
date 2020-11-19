@@ -4,14 +4,10 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index
-    if params[:filter].blank?
-      @messages = Message.all
-    elsif params[:filter]
-      name = params[:filter]
-      @messages = Message.by_user_name(name).order(created_at: :desc)
+    if is_admin?
+      get_messages(Message.all)
     else
-      my_ip = request.remote_ip
-      @messages = Message.by_ip_address(my_ip)
+      get_messages(visible_messages)
     end
   end
 
@@ -46,5 +42,21 @@ class MessagesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def message_params
       params.require(:message).permit(:name, :entry, :ip_address)
+    end
+
+    def visible_messages
+      Message.visible
+    end
+
+    def get_messages(messages)
+      if params[:filter].blank?
+        @messages = messages
+      elsif params[:filter]
+        name = params[:filter]
+        @messages = messages.by_user_name(name)
+      else
+        my_ip = request.remote_ip
+        @messages = messages.by_ip_address(my_ip)
+      end
     end
 end
