@@ -1,14 +1,13 @@
 class MessagesController < ApplicationController
-  before_action :set_message, only: [:show, :edit, :update, :destroy]
+  before_action :set_message, only: [:show, :edit, :update, :destroy, :hide]
 
   # GET /messages
   # GET /messages.json
   def index
-    if params[:filter].blank? || params[:filter]
-      @messages = Message.all
+    if is_admin?
+      get_messages(Message.all)
     else
-      my_ip = request.remote_ip
-      @messages = Message.by_ip_address(my_ip)
+      get_messages(visible_messages)
     end
   end
 
@@ -34,6 +33,16 @@ class MessagesController < ApplicationController
     end
   end
 
+  def hide
+    return unless is_admin?
+
+    if @message.update(hidden: true)
+      redirect_to messages_path
+    else
+      flash[:error] = 'Message could not be hidden'
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_message
@@ -43,5 +52,21 @@ class MessagesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def message_params
       params.require(:message).permit(:name, :entry, :ip_address)
+    end
+
+    def visible_messages
+      Message.visible
+    end
+
+    def get_messages(messages)
+      if params[:filter].blank?
+        @messages = messages
+      elsif params[:filter]
+        name = params[:filter]
+        @messages = messages.by_user_name(name)
+      else
+        my_ip = request.remote_ip
+        @messages = messages.by_ip_address(my_ip)
+      end
     end
 end

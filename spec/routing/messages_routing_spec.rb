@@ -13,5 +13,9 @@ RSpec.describe MessagesController, type: :routing do
     it "routes to #create" do
       expect(post: "/messages").to route_to("messages#create")
     end
+
+    it "routes to #hide" do
+      expect(put: "/messages/1/hide").to route_to("messages#hide", :id => "1")
+    end
   end
 end

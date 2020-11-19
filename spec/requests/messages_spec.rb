@@ -67,4 +67,35 @@ RSpec.describe "/messages", type: :request do
       end
     end
   end
+
+  describe "PUT /hide" do
+    context "with authorization" do
+      let!(:messages) { create_list(:message, 10) }
+      let!(:admin) { create(:admin) }
+
+      before do
+        post login_url, params: { username: admin.username, password: admin.password }
+      end
+
+      it "hides an existing message from users" do
+        expect(Message.visible.count).to eq 10
+
+        put "#{messages_url}/#{messages[0].to_param}/hide"
+        
+        expect(Message.visible.count).to eq 9
+      end
+    end
+
+    context "without authorization" do
+      let!(:messages) { create_list(:message, 10) }
+
+      it "does not hide a message from the user" do
+        expect(Message.visible.count).to eq 10
+
+        put "#{messages_url}/#{messages[0].to_param}/hide"
+        
+        expect(Message.visible.count).to eq 10
+      end
+    end
+  end
 end

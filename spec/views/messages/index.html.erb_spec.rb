@@ -17,6 +17,7 @@ RSpec.describe "messages/index", type: :view do
   end
 
   it "renders a list of messages" do
+    stub_is_admin
     render
     assert_select "div.card-body", count: 2
   end
