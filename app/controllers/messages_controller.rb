@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  before_action :set_message, only: [:show, :edit, :update, :destroy]
+  before_action :set_message, only: [:show, :edit, :update, :destroy, :hide]
 
   # GET /messages
   # GET /messages.json
@@ -30,6 +30,16 @@ class MessagesController < ApplicationController
         format.html { render :new }
         format.json { render json: @message.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def hide
+    return unless is_admin?
+
+    if @message.update(hidden: true)
+      redirect_to messages_path
+    else
+      flash[:error] = 'Message could not be hidden'
     end
   end
 

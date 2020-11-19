@@ -21,7 +21,7 @@
         </small>
 
         <% if is_admin? && !message.hidden %>
-          <%= link_to 'Hide message', 'heello.com', class: "messages__message-hide" %>
+          <%= link_to 'Hide message', hide_message_path(message), method: :put, data: { confirm: 'This message will be hidden from users. Proceed?' }, class: "messages__message-hide" %>
         <% end %>
       </div>
     </div>
