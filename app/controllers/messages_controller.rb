@@ -4,11 +4,20 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index
-    if params[:filter].blank? || params[:filter]
-      @messages = Message.all
+    @logged_in_user = current_user
+    if params[:filter].blank?
+      if @logged_in_user
+        @messages = Message.order('created_at DESC')
+      else
+        @messages = Message.where(hidden: false).order('created_at DESC')
+      end
     else
       my_ip = request.remote_ip
-      @messages = Message.by_ip_address(my_ip)
+      if @logged_in_user
+        @messages = Message.by_ip_address_admin(my_ip)
+      else
+        @messages = Message.by_ip_address(my_ip)
+      end
     end
   end
 
@@ -32,6 +41,11 @@ class MessagesController < ApplicationController
         format.json { render json: @message.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def hide_message
+    Message.update(params[:id], {:hidden => true})
+    redirect_to messages_path
   end
 
   private
