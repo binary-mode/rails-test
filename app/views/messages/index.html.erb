@@ -1,4 +1,8 @@
-<p id="notice"><%= notice %></p>
+<% if @current_user %>   
+  <p><a href="<%= logout_path %>">Logout</a></p>    
+<% else %>
+  <p><a href="<%= login_path %>">Login</a></p>
+<% end %>
 
 <h1>Messages</h1>
 
@@ -12,11 +16,20 @@
 <% @messages.each do |message| %>
   <div class="card-body">
     <hr />
-    <p class="card-text"><%= message.entry %></p>
+    <% if message.hidden %>
+      <p class="card-text red"><%= message.entry %></p>
+    <% else %>
+      <p class="card-text"><%= message.entry %></p>
+    <% end %>
     <p class="card-text">
         <small class="text-muted">
             <span class="text-muted">Added <%= message.created_at.to_s(:short) %> by <%= message.name %></span>
         </small>
     </p>
+    <% if @current_user %>
+      <% if !message.hidden %>
+        <a href="<%= hide_message_path(:id => message.id)%>">Hide Message</a>
+      <% end %>    
+    <% end %>
   </div>
 <% end %>
